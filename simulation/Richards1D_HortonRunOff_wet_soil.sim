@@ -1,0 +1,240 @@
+/*
+ * Solver for Richards' equation 1D
+ *   Numerical experiment to simulate infiltration excess (Horton runoff), wet soil.
+ *   
+ * 	 Numerical scheme: 
+ * 	 	Casulli, Vincenzo, and Paola Zanolli. 
+ * 	 	"A nested Newton-type algorithm for finite volume methods solving Richards' equation in mixed form." 
+ * 	 	SIAM Journal on Scientific Computing 32.4 (2010): 2255-2273.
+ */
+import static oms3.SimBuilder.instance as OMS3
+import static oms3.SimBuilder.*
+def home = oms_prj
+
+// start and end date of the simulation
+
+def startDate= "2017-01-01 00:00"
+
+
+def endDate="2017-01-02 23:55"
+
+// time interval of temporal series [minutes]
+def tTimestep = 5
+
+def writeFrequency = 100000
+
+
+solver = OMS3.sim(name: "Integrate PDE", {
+
+resource "$oms_prj/dist"
+
+	model(while : "reader_data_topBC.doProcess"  ){
+
+		components {
+			
+			// reads of the grid.nc file
+			"readNetCDF" "it.geoframe.blogpsot.netcdf.monodimensionalproblemtimedependent.ReadNetCDFRichardsGrid1D"
+			
+			// solve Richards' equation
+			"solver" "it.geoframe.blogspot.whetgeo1d.richardssolver.RichardsSolver1DMain"
+			
+			// time-series reader
+			"reader_data_topBC"         "org.jgrasstools.gears.io.timedependent.OmsTimeSeriesIteratorReader"
+			"reader_data_bottomBC"      "org.jgrasstools.gears.io.timedependent.OmsTimeSeriesIteratorReader"
+			"reader_data_save_dates"    "org.jgrasstools.gears.io.timedependent.OmsTimeSeriesIteratorReader"
+			
+			// this component stores solver's output during the simulation
+			"buffer" "it.geoframe.blogspot.buffer.buffertowriter.RichardsBuffer1D"
+			
+			// output writer in a NetCDF format
+			"writeNetCDF" "it.geoframe.blogpsot.netcdf.monodimensionalproblemtimedependent.WriteNetCDFRichards1DDouble"
+		
+		}
+		
+		parameter {
+
+			// File path of grid.nc file, the file created with RichardsMeshGen.ipynb	
+			"readNetCDF.richardsGridFilename" "$oms_prj//data/Grid_NetCDF/HortonRunOff_wet.nc"
+
+			// Available SWRC models:
+			// - "Van Genuchten"
+			// - "Kosugi"
+			// - "Brooks Corey"
+			// - "Romano"
+			// - "Van Genuchten Bachmann"
+			// - "Brooks Corey Bachmann"
+			"solver.typeClosureEquation" "{Water Depth,Van Genuchten}"
+			
+			// Available SWRC models:
+			// - "Van Genuchten"
+			// - "Kosugi"
+			// - "Brooks Corey"
+			// - "Romano"
+			// - "Van Genuchten Bachmann"
+			// - "Brooks Corey Bachmann"
+			"solver.typeEquationState" "{Water Depth,Van Genuchten}"
+
+			// Available unsaturated hydraulic conductivity models:
+			// - "Mualem Van Genuchten"
+			// - "Mualem Kosugi"
+			// - "Mualem Brooks Corey"
+			// - "Mualem Romano"
+			"solver.typeUHCModel" "{null,Mualem Van Genuchten}"
+
+			// Equation to describe the dependence of water viscosity on temperature
+			// is used to correct the value of unsaturated hydraulic conductivity
+			// - "notemperature"
+			// - "Ronan1998"
+			"solver.typeUHCTemperatureModel" "notemperature"
+
+			// Interface hydraulic conductivity can be computed as:
+			// - "mean" arithmetic average between i and i+1 (not suggested)
+			// - "max" maximum between i and i+1 (suggested)
+			// - "min" minimum between i and i+1 (not suggested)
+			// - "weighted average" average between i and i+1, weights are control volumes lengths
+			"solver.interfaceHydraulicConductivityModel" "max"
+						
+
+			// Parameter describing the dependence of water suction on temperature (Bachmann, 2002)
+			//"solver.beta0" "-766.45" // (do not change)
+
+			// Reference temperature [K] for the dependence of water suction on temperature (Bachmann, 2002)
+			//"solver.referenceTemperatureSWRC" "278.15" // (do not change)
+
+			// Type of the top boundary condition:
+			// - "Top Neumann" the water flux at the soil surface is assigned
+			// - "Top Dirichlet" the water suction is assigned 
+			// - "Top coupled" at the soil surface we consider the shallow water control volume
+			"solver.topBCType"  "Top Coupled";
+
+			// Type of the bottom boundary condition:
+			// - "Bottom Dirichlet" the water suction value is assigned
+			// - "Bottom Free Drainage" the water flux is controlled only
+			//                          by the gravitational gradient 
+			// - "Bottom Impervious" there is no water flux through the 
+			//						domain bottom
+			// - "Bottom Neumann" you prescribe the water flux through the 
+			//						domain bottom (positive: inflow, negative: outflow)
+			"solver.bottomBCType"  "Bottom Dirichlet"
+				
+			// Maximum ponding water allowed at soil surface [m]
+			"solver.maxPonding" "0.0"
+
+			// nested Newton tolerance, range(10^(-3) ;  10^(-14))
+			"solver.newtonTolerance" "10e-12"
+
+			// Algorithm to solve the nonlinear system:
+			// - 0 --> Newton's method
+			// - 1 --> nested Newton (suggested)
+			"solver.nestedNewton" "1"
+
+			// time step [s], it must be consistent
+			// with tTimestep defined at line 22
+			"solver.tTimeStep" tTimestep*60
+
+			// time step [s] used to integrate the equation,
+			// this is the Delta t used in the numerical scheme
+			// timeDelta <= tTimestep
+			"solver.timeDelta" "300"
+
+			"solver.stationID"  "1"
+			
+			// parameters reader data input top boundary condition
+			"reader_data_topBC.file"             "$oms_prj//data/Timeseries/HortonRunOff_Tr10_15min.csv"
+			"reader_data_topBC.idfield"          "ID"  
+			"reader_data_topBC.tStart"           "${startDate}"
+			"reader_data_topBC.tEnd"             "${endDate}"
+			"reader_data_topBC.tTimestep"        "${tTimestep}"
+			"reader_data_topBC.fileNovalue"      "-9999"
+
+			// parameters reader data input bottom boundary condition
+			"reader_data_bottomBC.file"             "$oms_prj//data/Timeseries/HortonRunOff_Dirichlet_0.csv"
+			"reader_data_bottomBC.idfield"          "ID"  
+			"reader_data_bottomBC.tStart"           "${startDate}"
+			"reader_data_bottomBC.tEnd"             "${endDate}"
+			"reader_data_bottomBC.tTimestep"        "${tTimestep}"
+			"reader_data_bottomBC.fileNovalue"      "-9999"
+			
+			// parameters reader data save dates
+			"reader_data_save_dates.file"             "$oms_prj//data/Timeseries/HortonRunOff_save_all.csv"
+			"reader_data_save_dates.idfield"          "ID"  
+			"reader_data_save_dates.tStart"           "${startDate}"
+			"reader_data_save_dates.tEnd"             "${endDate}"
+			"reader_data_save_dates.tTimestep"        "${tTimestep}"
+			"reader_data_save_dates.fileNovalue"      "-9999"
+			
+			
+			"buffer.writeFrequency"                   "${writeFrequency}"
+
+			// folder path for the output files
+			"writeNetCDF.fileName" "$oms_prj//output/Sim_HortonRunOff_wet.nc"
+			// here you can enter a string to describe your simulation
+			"writeNetCDF.briefDescritpion"          "Horton runoff test case, wet soil"
+			"writeNetCDF.writeFrequency"            "${writeFrequency}"
+			"writeNetCDF.timeUnits"                 "Minutes since 01/01/1970 00:00:00 UTC"
+			"writeNetCDF.timeZone"                  "UTC"
+			"writeNetCDF.fileSizeMax"               "10000"
+			"writeNetCDF.outVariables"              "{darcyVelocity}"
+			"writeNetCDF.pathGrid"                  "$oms_prj//data/Grid_NetCDF/HortonRunOff_wet.nc"
+			"writeNetCDF.pathTopBC"                 "$oms_prj//data/Timeseries/HortonRunOff_Tr10_15min.csv"
+			"writeNetCDF.pathBottomBC"              "$oms_prj//data/Timeseries/HortonRunOff_Dirichlet_0.csv"
+			"writeNetCDF.topBC"                     "Top coupled"
+			"writeNetCDF.bottomBC"                  "Dirichlet"
+			"writeNetCDF.swrcModel"                 "Van Genuchten"
+			"writeNetCDF.soilHydraulicConductivityModel" "Mualem Van Genuchten"
+			"writeNetCDF.interfaceConductivityModel"     "max"
+			
+		}
+
+		connect{
+
+
+			"readNetCDF.z"                      "solver.z"
+			"readNetCDF.spaceDelta"             "solver.spaceDeltaZ"
+			"readNetCDF.psiIC"                  "solver.psiIC"
+			"readNetCDF.temperature"            "solver.temperature"
+			"readNetCDF.controlVolume"          "solver.controlVolume"
+			"readNetCDF.Ks"                     "solver.ks"
+			"readNetCDF.thetaS"                 "solver.thetaS"
+			"readNetCDF.thetaR"                 "solver.thetaR"
+			"readNetCDF.par1SWRC"               "solver.par1SWRC"
+			"readNetCDF.par2SWRC"               "solver.par2SWRC"
+			"readNetCDF.par3SWRC"               "solver.par3SWRC"
+			"readNetCDF.par4SWRC"               "solver.par4SWRC"
+			"readNetCDF.par5SWRC"               "solver.par5SWRC"
+			"readNetCDF.alphaSS"                "solver.alphaSpecificStorage"
+			"readNetCDF.betaSS"                 "solver.betaSpecificStorage"
+			"readNetCDF.equationStateID"        "solver.inEquationStateID"
+			"readNetCDF.parameterID"            "solver.inParameterID"
+
+			"reader_data_topBC.tCurrent"        "solver.inCurrentDate"
+			"reader_data_topBC.outData"         "solver.inTopBC"
+			"reader_data_bottomBC.outData"      "solver.inBottomBC"
+			"reader_data_save_dates.outData"    "solver.inSaveDate"
+			
+			
+			
+			// input buffer
+			"solver.inCurrentDate"        "buffer.inputDate"
+			"solver.doProcessBuffer"      "buffer.doProcessBuffer"
+			"solver.outputToBuffer"       "buffer.inputVariable"
+
+			
+			// input writeNetCDF
+			"reader_data_topBC.doProcess"        "writeNetCDF.doProcess"
+			
+			"buffer.myVariable"                  "writeNetCDF.variables"
+			
+			"readNetCDF.eta"                     "writeNetCDF.spatialCoordinate"
+			"readNetCDF.etaDual"                 "writeNetCDF.dualSpatialCoordinate"
+			"readNetCDF.controlVolume"           "writeNetCDF.controlVolume"
+			"readNetCDF.psiIC"                   "writeNetCDF.psiIC"
+			"readNetCDF.temperature"             "writeNetCDF.temperature"
+			
+			
+		}
+	}
+
+	}
+
+)
