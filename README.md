@@ -40,9 +40,11 @@ GEOframe programs run on Java 8. The OMS project can be run either within the OM
 Please refers to the guidelines at https://hub.docker.com/r/omslab/oms/. Please use the version `0.3_py3`.
 
 # Project documentation
-In the folder Jupyter_Notebook` you can find
+In the folder `Documentation` you can find
 - `_README.ipynb` containing a description of the folder structure
-- `00_.ipynb` containing a detailed descritption of this OMS project.
+- `00_How_to_Read_NetCDF.ipynb` containing a brief introduction to [NetCDF](https://www.unidata.ucar.edu/software/netcdf/docs/index.html) and the Python library [xarray](http://xarray.pydata.org/en/stable/index.html)
+- `00_OMS_Timeseries.ipynb` shows the structure of a .csv file OMS compliant and how to prepare timeseries input.
+- containing a detailed descritption of this OMS project.
 
 # Acknowledgements
 
