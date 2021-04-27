@@ -53,7 +53,7 @@ resource "$oms_prj/dist/*.jar"
 		parameter {
 
 			// File path of grid.nc file, the file created with RichardsMeshGen.ipynb	
-			"readNetCDF.richardsGridFilename" "$oms_prj//data/Grid_NetCDF/SrivastavaYeh_layered_2000.nc"
+			"readNetCDF.richardsGridFilename" "$oms_prj//data/Grid_NetCDF/SrivastavaYeh_layered_Set2_wetting.nc"
 
 			// Available SWRC models:
 			// - "Van Genuchten"
@@ -93,7 +93,7 @@ resource "$oms_prj/dist/*.jar"
 			// - "Geometric mean" arithmetic average between i and i+1 
 			// - "max" maximum between i and i+1
 			// - "min" minimum between i and i+1
-			"solver.interfaceHydraulicConductivityModel" "max"
+			"solver.interfaceHydraulicConductivityModel" "Harmonic mean"
 
 			// Type of the top boundary condition:
 			// - "Top Neumann" the water flux at the soil surface is assigned
@@ -160,22 +160,22 @@ resource "$oms_prj/dist/*.jar"
 			"buffer.writeFrequency"                   "${writeFrequency}"
 
 			// folder path for the output files
-			"writeNetCDF.fileName" "$oms_prj//output/SrivastavaYeh_layered_wetting_max.nc"
+			"writeNetCDF.fileName" "$oms_prj//output/SrivastavaYeh_layered_Set2_wetting_harmonic.nc"
 			// here you can enter a string to describe your simulation
-			"writeNetCDF.briefDescritpion"          "Srivastava Yeh 1991 analytical solution layered soil wetting case"
+			"writeNetCDF.briefDescritpion"          "Srivastava Yeh 1991 analytical solution layered soil wetting case, parameter set 2"
 			"writeNetCDF.writeFrequency"            "${writeFrequency}"
 			"writeNetCDF.timeUnits"                 "Minutes since 01/01/1970 00:00:00 UTC"
 			"writeNetCDF.timeZone"                  "UTC"
 			"writeNetCDF.fileSizeMax"               "10000"
 			"writeNetCDF.outVariables"              "{darcyVelocity}"
-			"writeNetCDF.pathGrid"                  "$oms_prj//data/Grid_NetCDF/SrivastavaYeh_layered_2000.nc"
+			"writeNetCDF.pathGrid"                  "$oms_prj//data/Grid_NetCDF/SrivastavaYeh_layered_Set2_wetting.nc"
 			"writeNetCDF.pathTopBC"                 "$oms_prj//data/Timeseries/SrivastavaYeh_q09.csv"
 			"writeNetCDF.pathBottomBC"              "$oms_prj//data/Timeseries/SrivastavaYeh_psi0.csv"
 			"writeNetCDF.topBC"                     "Neumann"
 			"writeNetCDF.bottomBC"                  "Dirichlet"
 			"writeNetCDF.swrcModel"                 "Gardner"
 			"writeNetCDF.soilHydraulicConductivityModel"   "Gardner"
-			"writeNetCDF.interfaceConductivityModel"       "Max"
+			"writeNetCDF.interfaceConductivityModel"       "Harmonic mean"
 			
 		}
 
