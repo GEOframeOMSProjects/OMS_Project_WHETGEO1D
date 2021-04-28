@@ -53,5 +53,5 @@ In the folder `Documentation` you can find
 -  Niccolò Tubini implemented and deployed it (Authors)
 -  Riccardo Rigon provided financial support
 -  Niccolò Tubini and Riccardo Rigon wrote the documentation in the Notebooks
--  Niccolò Tubini was supported by a Ph.D. grant by [DICAM-UniTrento](https://www.unitn.it/dricam/).
+-  Niccolò Tubini was supported by a Ph.D. grant by [DICAM-UniTrento](https://www.unitn.it/dricam/) and by the PRIN 2017 project [WATZON (WATer mixing in the critical ZONe: observations and predictions under environmental changes)](http://abouthydrology.blogspot.com/2019/06/the-watzon-project.html).
 -  We thank Professor Vincenzo Casulli and Professor Michael Dumbser for their fruitful discussions on the numerical aspects of the work. 
