@@ -93,7 +93,7 @@ resource "$oms_prj/dist/*.jar"
 			// - "Geometric mean" arithmetic average between i and i+1 
 			// - "max" maximum between i and i+1
 			// - "min" minimum between i and i+1
-			"solver.interfaceHydraulicConductivityModel" "Harmonic mean"
+			"solver.interfaceHydraulicConductivityModel" "Geometric mean"
 
 			// Type of the top boundary condition:
 			// - "Top Neumann" the water flux at the soil surface is assigned
@@ -175,7 +175,7 @@ resource "$oms_prj/dist/*.jar"
 			"writeNetCDF.bottomBC"                  "Dirichlet"
 			"writeNetCDF.swrcModel"                 "Gardner"
 			"writeNetCDF.soilHydraulicConductivityModel"   "Gardner"
-			"writeNetCDF.interfaceConductivityModel"       "Harmonic mean"
+			"writeNetCDF.interfaceConductivityModel"       "Geometric mean"
 			
 		}
 
