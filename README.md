@@ -34,17 +34,18 @@ GEOframe programs run on Java 8. The OMS project can be run either within the OM
   - on Mac or Linux open a terminal and execute `./console.sh &`
 
 - In the console setting, select the panel Run and set the Java path to the previously installed JDK. The Java path can be  
-![Alt text](Jupyter_Notebook/image/java_path.png?raw=true "Title")
+![Alt text](Documentation/Figures/java_path.png?raw=true "Title")
 
 ## OMS from Docker
 Please refers to the guidelines at https://hub.docker.com/r/omslab/oms/. Please use the version `0.3_py3`.
 
 # Project documentation
 In the folder `Documentation` you can find
-- `_README.ipynb` containing a description of the folder structure
-- `00_How_to_Read_NetCDF.ipynb` containing a brief introduction to [NetCDF](https://www.unidata.ucar.edu/software/netcdf/docs/index.html) and the Python library [xarray](http://xarray.pydata.org/en/stable/index.html)
-- `00_OMS_Timeseries.ipynb` shows the structure of a .csv file OMS compliant and how to prepare timeseries input.
-- containing a detailed descritption of this OMS project.
+- `_README.ipynb` containing a description of the folder structure;
+- `00_How_to_Read_NetCDF.ipynb` containing a brief introduction to [NetCDF](https://www.unidata.ucar.edu/software/netcdf/docs/index.html) and the Python library [xarray](http://xarray.pydata.org/en/stable/index.html);
+- `00_OMS_Timeseries.ipynb` showing the structure of a .csv file OMS compliant and how to prepare timeseries input;
+- `00_Richards_computational_grid.ipynb` containing a detailed descritption of how to prepare the input file to define the computational grid;
+- `00_WHETGEO1D_Richards.ipynb` containing the documentation to setup the .sim file to solve the Richards' equation.
 
 # Acknowledgements
 
