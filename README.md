@@ -1,7 +1,7 @@
 # OMS_Project_WHETGEO1D
 
 <figure>
-    <img src="Documentation/Figures/Horton.PNG" width="300" height="300/1.618">
+    <img src="Documentation/Figures/Horton.PNG">
     <figcaption>A synthetic simulation performed with WHETGEO1D to simulate the inflitration excess runoff. Panel (a) shows a comparison between the rainfall intensity J and actual soil infiltration i. The rainfall intensity exceeds the
 actual infiltration rate so water builds up at the soil surface (blue line). Panel (b) shows the time evolution of the water suction within the
 soil. From the numerical point of view, as water builds up at the soil surface it would be necessary to switch the boundary condition, from
