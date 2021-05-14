@@ -178,7 +178,7 @@ resource "$oms_prj/dist"
 			// folder path for the output files
 			"writeNetCDF.fileName" "$oms_prj//output/Sim_heatdiffusion_freezing_thawing.nc"
 			// here you can enter a string to describe your simulation
-			"writeNetCDF.briefDescritpion"          "Pure heat conduction 1D. The simulation is driven with the surface energy budget. The input fluxes are computed with the GEOframe components."
+			"writeNetCDF.briefDescritpion"          "Pure heat conduction 1D. The simulation is driven with the surface energy budget. The input fluxes are computed with the GEOframe components. The SFC is modelled by using the Dall'Amico at al. (2011) model."
 			"writeNetCDF.writeFrequency"            "${writeFrequency}"
 			"writeNetCDF.timeUnits"                 "Minutes since 01/01/1970 00:00:00 UTC"
 			"writeNetCDF.timeZone"                  "UTC"

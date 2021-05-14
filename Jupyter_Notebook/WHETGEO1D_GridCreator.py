@@ -66,7 +66,7 @@ def grid1D(data_grid, dz_min, b, dz_max, grid_type, **kwargs):
     elif(grid_type=='mixed'):
         [KMAX, eta, eta_dual, space_delta, z, z_dual, control_volume] = build_grid_mixed(data_grid, dz_min, b, dz_max)    
     else:
-        print('Check grid_type')
+        ('Check grid_type')
         
     if(shallow_water==True):
         KMAX = KMAX+1
@@ -370,6 +370,7 @@ def build_grid_mixed(data_grid, dz_min, b, dz_max):
         z_0 = -data_grid['eta'][layer]
         z_1 = -data_grid['eta'][layer+1]
         z_max = z_1-z_0
+
         dz_sum = 0
         k = 0
         tmp_layer_dz = []
@@ -386,38 +387,34 @@ def build_grid_mixed(data_grid, dz_min, b, dz_max):
                 dz_sum = dz_sum + z_max-dz_sum
 
             k = k+1
-        
         tmp_layer_dz_flipped = list(reversed(tmp_layer_dz))
                 
         combined_tmp_layer_dz= np.minimum(tmp_layer_dz, tmp_layer_dz_flipped)
         
         combined_layer_dz = [x if (x<dz_max) else np.nan for x in combined_tmp_layer_dz]
-        
+
         if np.isnan(combined_layer_dz).any()==False:
             compare = [1 if i/j==1 else 0 for i, j in zip(combined_layer_dz,tmp_layer_dz)]
             index = len(compare)-compare[::-1].index(1)-1
         else:
             index = combined_layer_dz[0:].index(np.nan)
-
         constant_layer_dz = np.ones(int (np.ceil( (z_max-np.nansum(combined_layer_dz))/dz_max))) * (z_max-np.nansum(combined_layer_dz))/np.ceil( (z_max-np.nansum(combined_layer_dz))/dz_max)
-        
+
         tmp = []
         if index == 0:
             tmp.extend(constant_layer_dz)
         else:
             tmp.extend(combined_layer_dz[0:index])
             tmp.extend(list(constant_layer_dz))
-#             tmp.extend(combined_layer_dz[index+1:len(combined_layer_dz)] ) 
             tmp.extend(combined_layer_dz[index+combined_layer_dz.count(np.nan):len(combined_layer_dz)] ) 
 
         tmp_dz.extend(tmp)
-        
+
     # get the number og control volumes
     KMAX = len(tmp_dz)
     dz = np.zeros(KMAX,dtype=float)
     
     for i in range(0,KMAX):
-
         dz[i] = tmp_dz[i]
     
     # array containing centroids coordinates measured along eta
@@ -432,7 +429,6 @@ def build_grid_mixed(data_grid, dz_min, b, dz_max):
     space_delta = np.zeros(KMAX+1,dtype=float)
     # array containing control volume size
     control_volume = np.zeros(KMAX,dtype=float)
-	
 	
     tmp = 0
     for i in range(0,KMAX):
@@ -924,6 +920,142 @@ def set_parameters_heat_diffusion(data_grid, data_parameter, data_dictionary, KM
 
     return [equation_state_ID, parameter_ID, soil_particles_density, thermal_conductivity_soil_particles, specific_heat_capacity_soil_particles,
          theta_s, theta_r, melting_temperature, par_1, par_2, par_3, par_4, par_5, alpha_ss, beta_ss, ks]
+
+
+def set_parameters_richards_heat_advection_diffusion(data_grid, data_parameter, data_dictionary, KMAX, eta):
+    '''
+    This function associate to each control volume a label that identifies 
+    the rheology model, the set of parameters describing the soil type, and the max/min cell size 
+    for regridding.
+    
+    :param data_grid: pandas dataframe containg the grid_input_file.csv
+    :type data: pandas dataframe
+    
+    :param data_parameter: pandas dataframe containg the parameter_input_file.csv
+    :type data: pandas dataframe
+    
+    :param data_dictionary: pandas dataframe containg a dictionary for the SWRC parameters
+    :type data: pandas dataframe
+    
+    :param KMAX: number of control volumes.
+    :type KMAX: int
+    
+    :param eta: vertical coordinate of control volume centroids. It is positive upward with 
+        origin set at soil surface.
+    :type eta: list
+    
+    return:
+    
+    equation_state_ID: vector containing the ID identifing the state equation of the k-th element
+    type: array
+    
+    parameters_ID: vector containing the ID identifing the set of parameters of the k-th element
+    type: array
+    
+    soil_particles_density:
+    type:array
+    
+    thermal_conductivity_soil_particles:
+    type:array
+    
+    specific_thermal_capacity_soil_particles:
+    type:array
+        	
+    theta_s: vector containing the adimensional water content at saturation
+    type:array
+    
+    theta_r: vector containing the residual adimensional water content
+    type:array
+    
+    par_1: vector containing the parameter 1 of the SWRC model
+    type:array
+    
+    par_2: vector containing the parameter 2 of the SWRC model
+    type:array
+    
+    par_3: vector containing the parameter 3 of the SWRC model
+    type:array
+    
+    par_4: vector containing the parameter 4 of the SWRC model
+    type:array
+    
+    par_5: vector containing the parameter 5 of the SWRC model
+    type:array
+    
+    alpha_ss: vector containing the acquitard compressibility 
+    type:array
+    
+    beta_ss: vector containing the water compressibility
+    type:array
+    
+    ks: vector containing the saturated hydraulic conductivity
+    type:array
+    '''
+    equation_state_ID = np.zeros(KMAX, dtype=float)
+    parameter_ID = np.zeros(KMAX, dtype=float)
+    
+    soil_particles_density = np.zeros(data_parameter.shape[0]+1, dtype=float)
+    thermal_conductivity_soil_particles = np.zeros(data_parameter.shape[0]+1, dtype=float)
+    specific_heat_capacity_soil_particles = np.zeros(data_parameter.shape[0]+1, dtype=float)
+    theta_s = np.zeros(data_parameter.shape[0]+1, dtype=float)
+    theta_r = np.zeros(data_parameter.shape[0]+1, dtype=float)
+    par_1 = np.zeros(data_parameter.shape[0]+1, dtype=float)
+    par_2 = np.zeros(data_parameter.shape[0]+1, dtype=float)
+    par_3 = np.zeros(data_parameter.shape[0]+1, dtype=float)
+    par_4 = np.zeros(data_parameter.shape[0]+1, dtype=float)
+    par_5 = np.zeros(data_parameter.shape[0]+1, dtype=float)
+    alpha_ss = np.zeros(data_parameter.shape[0]+1, dtype=float)
+    beta_ss = np.zeros(data_parameter.shape[0]+1, dtype=float)
+    ks = np.zeros(data_parameter.shape[0]+1, dtype=float)
+    
+    coord_layer = []
+    tmp_equation_state_ID = []
+    tmp_parameter_ID = []
+    
+    for i in data_grid.index:
+
+        if data_grid['Type'][i] == 'L':
+            
+            coord_layer.append(data_grid['eta'][i])
+            tmp_equation_state_ID.append(data_grid['equationStateID'][i])
+            tmp_parameter_ID.append(data_grid['parameterID'][i])
+           
+     
+    for i in range(np.size(coord_layer)-1,0,-1):
+        
+        for j in range(0,KMAX):
+            
+            if(eta[j]>coord_layer[i] and eta[j]<coord_layer[i-1] ):
+                
+                equation_state_ID[j] = tmp_equation_state_ID[i-1]
+                parameter_ID[j] = tmp_parameter_ID[i-1]
+        
+    parameter_ID[KMAX-1] = parameter_ID[KMAX-2]   
+    
+    data_parameter.rename(columns=dict(data_dictionary.values), inplace=True)    
+
+    columns = ['spDensity', 'spConductivity', 'spSpecificHeatCapacity', 'thetaS', 'thetaR', 'par1', 'par2', 'par3', 'par4', 'par5', 'alphaSpecificStorage', 'betaSpecificStorage', 'Ks']
+
+    tmp_df = pd.DataFrame(columns=columns)
+    tmp_df = pd.concat([tmp_df, data_parameter],sort=False)
+    tmp_df.replace(np.nan, -9999.0, inplace=True)
+    
+    soil_particles_density[1:] = tmp_df['spDensity'].to_numpy()
+    thermal_conductivity_soil_particles[1:] = tmp_df['spConductivity'].to_numpy()
+    specific_heat_capacity_soil_particles[1:] = tmp_df['spSpecificHeatCapacity'].to_numpy()
+    theta_s[1:] = tmp_df['thetaS'].to_numpy()
+    theta_r[1:] = tmp_df['thetaR'].to_numpy()
+    par_1[1:] = tmp_df['par1'].to_numpy()
+    par_2[1:] = tmp_df['par2'].to_numpy()
+    par_3[1:] = tmp_df['par3'].to_numpy()
+    par_4[1:] = tmp_df['par4'].to_numpy()
+    par_5[1:] = tmp_df['par5'].to_numpy()
+    alpha_ss[1:] = tmp_df['alphaSpecificStorage'].to_numpy()
+    beta_ss[1:] = tmp_df['betaSpecificStorage'].to_numpy()
+    ks[1:] = tmp_df['Ks'].to_numpy()
+    
+    return [equation_state_ID, parameter_ID, soil_particles_density, thermal_conductivity_soil_particles, specific_heat_capacity_soil_particles, theta_s, theta_r, par_1, par_2, par_3, par_4, par_5,
+           alpha_ss, beta_ss, ks]
 
 
 def calibration_point_index(data_grid, eta):
