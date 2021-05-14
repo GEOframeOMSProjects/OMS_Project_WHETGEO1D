@@ -7,6 +7,8 @@
  * 	 	Casulli, Vincenzo, and Paola Zanolli. 
  * 	 	"A nested Newton-type algorithm for finite volume methods solving Richards' equation in mixed form." 
  * 	 	SIAM Journal on Scientific Computing 32.4 (2010): 2255-2273.
+ * 	 	
+ * 	Author: Niccolò Tubini
  */
 import static oms3.SimBuilder.instance as OMS3
 import static oms3.SimBuilder.*

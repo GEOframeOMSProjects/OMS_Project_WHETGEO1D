@@ -22,7 +22,7 @@ def endDate="2015-12-15 00:00"
 // time interval of temporal series [minutes]
 def tTimestep = 60
 
-def writeFrequency = 100000
+def writeFrequency = 10000
 
 
 solver = OMS3.sim(name: "Integrate PDE", {
@@ -118,7 +118,7 @@ resource "$oms_prj/dist"
 			//						domain bottom (positive: inflow, negative: outflow)
 			"solver.bottomBCType"  "Bottom Free Drainage"
 
-			"solver.stationID"  "0"
+			"solver.stationID"  "1"
 			
 			
 			// Maximum ponding water allowed at soil surface [m]
