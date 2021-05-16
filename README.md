@@ -60,10 +60,10 @@ In the folder `Documentation` you can find
 Here you can find the source code of [WHETGEO1D](https://github.com/geoframecomponents/WHETGEO-1D).
 
 The source codes of the classes used to solve the water and energy budgets and the components to deal with I/O are:
--[Buffer](https://github.com/geoframecomponents/Buffer) contains the source code of the buffer componets. 
--[ClosureEquation](https://github.com/geoframecomponents/ClosureEquation) contains the source code of the parametrization describing the hydraulic and thermal properties of the soil.
--[NetCDF](https://github.com/geoframecomponents/NetCDF) contains the source code of the components to read and write netCDF files,
--[Numerical](https://github.com/geoframecomponents/Numerical) contains the source code the classes dealing with the algorithms to solve linear systems and to linearize nonlinear systems
+- [Buffer](https://github.com/geoframecomponents/Buffer) contains the source code of the buffer componets. 
+- [ClosureEquation](https://github.com/geoframecomponents/ClosureEquation) contains the source code of the parametrization describing the hydraulic and thermal properties of the soil.
+- [NetCDF](https://github.com/geoframecomponents/NetCDF) contains the source code of the components to read and write netCDF files,
+- [Numerical](https://github.com/geoframecomponents/Numerical) contains the source code the classes dealing with the algorithms to solve linear systems and to linearize nonlinear systems
 
 # Acknowledgements
 
