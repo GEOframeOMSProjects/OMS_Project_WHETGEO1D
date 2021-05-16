@@ -72,6 +72,9 @@ The source codes of the classes used to solve the water and energy budgets and t
 - [NetCDF](https://github.com/geoframecomponents/NetCDF) contains the source code of the components to read and write netCDF files,
 - [Numerical](https://github.com/geoframecomponents/Numerical) contains the source code the classes dealing with the algorithms to solve linear systems and to linearize nonlinear systems
 
+# Contributing
+Your contributions are always welcome! Please take a look at the [contribution guidelines first](http://geoframe.blogspot.com/2020/05/geoframe-community-publication-policy.html).
+
 # Acknowledgements
 
 -  Niccolò Tubini, Riccardo Rigon developed the theoretical aspects of the model (Authors). 
@@ -81,3 +84,7 @@ The source codes of the classes used to solve the water and energy budgets and t
 -  Niccolò Tubini and Concetta D'Amato wrote the documentation
 -  Niccolò Tubini was supported by a Ph.D. grant by [DICAM-UniTrento](https://www.unitn.it/dricam/) and by the PRIN 2017 project [WATZON (WATer mixing in the critical ZONe: observations and predictions under environmental changes)](http://abouthydrology.blogspot.com/2019/06/the-watzon-project.html).
 -  We thank Professor Vincenzo Casulli and Professor Michael Dumbser for their fruitful discussions on the numerical aspects of the work. 
+
+Hoping that WHETGEO will _whet_ your curiosity.
+
+
