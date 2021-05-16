@@ -1,7 +1,8 @@
 # OMS_Project_WHETGEO1D
-WHETGEO is a physically based model simulating the water and energy budgets in a soil column.
+`WHETGEO1D` is a physically based model simulating the water and energy budgets in a soil column. `WHETGEO1D` is written in Java,  works under the [`Object Modeling System v3 (OMS3)`](https://abouthydrology.blogspot.com/2017/08/oms-3-essentials.html)(David et al., 2013) framework and it is part of the `GEOframe` system ([Formetta et al., 2014](https://doi.org/10.1016/j.envsoft.2014.01.019), [Bancheri, 2017](http://eprints-phd.biblio.unitn.it/2679/)). It was produced as part of the Ph.D. work by Niccolò Tubini.
+
 <p align="center" width="100%">
-    <img src="Documentation/Figures/Horton.PNG" width="66%">
+    <img src="Documentation/Figures/Horton.PNG" width="50%">
     <br>
     A synthetic simulation performed with WHETGEO1D to simulate the inflitration excess runoff. Panel (a) shows a comparison between the rainfall intensity J and actual soil infiltration i. The rainfall intensity exceeds the
 actual infiltration rate so water builds up at the soil surface (blue line). Panel (b) shows the time evolution of the water suction within the
@@ -10,16 +11,16 @@ Neumann type to Dirichlet type.
 </p>
 
 # Website
-- [GEOframe](http://geoframe.blogspot.com/)
-- [Object Modeling Sytem (OMS)](https://alm.engr.colostate.edu/cb/project/oms)
+- [GEOframe](https://geoframe.blogspot.com/2021/05/whetgeo-1d.html)
+- [Object Modeling Sytem (OMS3)](https://alm.engr.colostate.edu/cb/project/oms)
 
-# OMS
-`WHETGEO1D` is written in Java,  works under the [`OMS3`](https://abouthydrology.blogspot.com/2017/08/oms-3-essentials.html)(David et al., 2013) framework and it is part of the `GEOframe` system ([Formetta et al., 2014](https://doi.org/10.1016/j.envsoft.2014.01.019), [Bancheri, 2017](http://eprints-phd.biblio.unitn.it/2679/)). It was produced as part of the Ph.D. work by Niccolò Tubini.
+# GEOframe environment installation
+
 Here you can find the [source code](https://github.com/geoframecomponents/WHETGEO-1D)
 
-GEOframe programs run on Java 8. The OMS project can be run either within the OMS v3 Console or by using [Docker](https://hub.docker.com/r/omslab/oms/).
-
-## OMS v3 Console
+GEOframe programs run on Java 8. `WHETGEO1D` can be run either within the OMS3 Console or by using [Docker](https://hub.docker.com/r/omslab/oms/).
+ 
+## Running WHETGEO1D from the OMS3 console
 - As first step it is necessary to install the JDK 8. There are two options:
   - Download open JDK 8 LTS from https://adoptopenjdk.net/
     - Install it
@@ -44,7 +45,7 @@ GEOframe programs run on Java 8. The OMS project can be run either within the OM
 - In the console setting, select the panel Run and set the Java path to the previously installed JDK. The Java path can be  
 ![Alt text](Documentation/Figures/java_path.png?raw=true "Title")
 
-## OMS from Docker
+## Running WHETGEO1D from Docker
 Please refers to the guidelines at https://hub.docker.com/r/omslab/oms/. Please use the version `0.3_py3`.
 
 # Project documentation
@@ -61,6 +62,6 @@ In the folder `Documentation` you can find
 -  Niccolò Tubini, Riccardo Rigon designed the first version of the code (Authors)
 -  Niccolò Tubini implemented and deployed it (Authors)
 -  Riccardo Rigon provided financial support
--  Niccolò Tubini and Riccardo Rigon wrote the documentation in the Notebooks
+-  Niccolò Tubini and Concetta D'Amato wrote the documentation
 -  Niccolò Tubini was supported by a Ph.D. grant by [DICAM-UniTrento](https://www.unitn.it/dricam/) and by the PRIN 2017 project [WATZON (WATer mixing in the critical ZONe: observations and predictions under environmental changes)](http://abouthydrology.blogspot.com/2019/06/the-watzon-project.html).
 -  We thank Professor Vincenzo Casulli and Professor Michael Dumbser for their fruitful discussions on the numerical aspects of the work. 
