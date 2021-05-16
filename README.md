@@ -56,6 +56,15 @@ In the folder `Documentation` you can find
 - `00_Richards_computational_grid.ipynb` containing a detailed descritption of how to prepare the input file to define the computational grid;
 - `00_WHETGEO1D_Richards.ipynb` containing the documentation to setup the .sim file to solve the Richards' equation.
 
+# Source code
+Here you can find the source code of [WHETGEO1D](https://github.com/geoframecomponents/WHETGEO-1D).
+
+The source codes of the classes used to solve the water and energy budgets and the components to deal with I/O are:
+-[Buffer](https://github.com/geoframecomponents/Buffer) contains the source code of the buffer componets. 
+-[ClosureEquation](https://github.com/geoframecomponents/ClosureEquation) contains the source code of the parametrization describing the hydraulic and thermal properties of the soil.
+-[NetCDF](https://github.com/geoframecomponents/NetCDF) contains the source code of the components to read and write netCDF files,
+-[Numerical](https://github.com/geoframecomponents/Numerical) contains the source code the classes dealing with the algorithms to solve linear systems and to linearize nonlinear systems
+
 # Acknowledgements
 
 -  Niccolò Tubini, Riccardo Rigon developed the theoretical aspects of the model (Authors). 
