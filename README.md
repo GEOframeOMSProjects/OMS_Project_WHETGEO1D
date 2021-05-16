@@ -1,6 +1,12 @@
 # OMS_Project_WHETGEO1D
 `WHETGEO1D` is a physically based model simulating the water and energy budgets in a soil column. `WHETGEO1D` is written in Java,  works under the [`Object Modeling System v3 (OMS3)`](https://abouthydrology.blogspot.com/2017/08/oms-3-essentials.html)(David et al., 2013) framework and it is part of the `GEOframe` system ([Formetta et al., 2014](https://doi.org/10.1016/j.envsoft.2014.01.019), [Bancheri, 2017](http://eprints-phd.biblio.unitn.it/2679/)). It was produced as part of the Ph.D. work by Niccolò Tubini.
 
+With `WHETGEO1D` it is possible to solve
+
+- the Richardson-Richards equation, conventionally known as Richards’ equation;
+- The heat diffusion equation considering the surface energy budget and the phase change of water as done in [Tubini et al. (2020)](https://tc.copernicus.org/preprints/tc-2020-293/);
+- The heat advection-diffusion equation coupled with the Richardson-Richards equation.
+
 <p align="center" width="100%">
     <img src="Documentation/Figures/Horton.PNG" width="50%">
     <br>
@@ -10,6 +16,7 @@ soil. From the numerical point of view, as water builds up at the soil surface i
 Neumann type to Dirichlet type.
 </p>
 
+`
 # Website
 - [GEOframe](https://geoframe.blogspot.com/2021/05/whetgeo-1d.html)
 - [Object Modeling Sytem (OMS3)](https://alm.engr.colostate.edu/cb/project/oms)
