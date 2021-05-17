@@ -80,7 +80,8 @@ Your contributions are always welcome! Please take a look at the [contribution g
 -  Niccolò Tubini implemented and deployed it (Authors)
 -  Riccardo Rigon provided financial support
 -  Niccolò Tubini and Concetta D'Amato wrote the documentation
--  Niccolò Tubini was supported by a Ph.D. grant by [DICAM-UniTrento](https://www.unitn.it/dricam/) and by the PRIN 2017 project [WATZON (WATer mixing in the critical ZONe: observations and predictions under environmental changes)](http://abouthydrology.blogspot.com/2019/06/the-watzon-project.html).
+-  Niccolò Tubini was supported by a Ph.D. grant by [DICAM-UniTrento](https://www.unitn.it/dricam/) by the Italian MIUR Project (PRIN 2017)
+“WATer mixing in the critical ZONe: observations and predictions under environmental changes-WATZON” (project code: 2017SL7ABC).
 -  We thank Professor Vincenzo Casulli and Professor Michael Dumbser for their fruitful discussions on the numerical aspects of the work. 
 
 Hoping that WHETGEO will _whet_ your curiosity.
