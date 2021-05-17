@@ -1,4 +1,4 @@
-# OMS_Project_WHETGEO1D
+# OMS Project WHETGEO1D
 `WHETGEO1D` is a physically based model simulating the water and energy budgets in a soil column. `WHETGEO1D` is written in Java,  works under the [`Object Modeling System v3 (OMS3)`](https://abouthydrology.blogspot.com/2017/08/oms-3-essentials.html)(David et al., 2013) framework and it is part of the `GEOframe` system ([Formetta et al., 2014](https://doi.org/10.1016/j.envsoft.2014.01.019), [Bancheri, 2017](http://eprints-phd.biblio.unitn.it/2679/)). It was produced as part of the Ph.D. work by Niccolò Tubini.
 
 With `WHETGEO1D` it is possible to solve
@@ -16,7 +16,8 @@ soil. From the numerical point of view, as water builds up at the soil surface i
 Neumann type to Dirichlet type.
 </p>
 
-`
+Hoping that WHETGEO will _whet_ your curiosity.
+
 # Website
 - [GEOframe](https://geoframe.blogspot.com/2021/05/whetgeo-1d.html)
 - [Object Modeling Sytem (OMS3)](https://alm.engr.colostate.edu/cb/project/oms)
@@ -84,6 +85,6 @@ Your contributions are always welcome! Please take a look at the [contribution g
 “WATer mixing in the critical ZONe: observations and predictions under environmental changes-WATZON” (project code: 2017SL7ABC).
 -  We thank Professor Vincenzo Casulli and Professor Michael Dumbser for their fruitful discussions on the numerical aspects of the work. 
 
-Hoping that WHETGEO will _whet_ your curiosity.
+
 
 
