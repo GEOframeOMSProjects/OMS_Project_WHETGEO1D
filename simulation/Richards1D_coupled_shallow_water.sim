@@ -55,7 +55,7 @@ resource "$oms_prj/dist"
 		parameter {
 
 			// File path of grid.nc file, the file created with RichardsMeshGen.ipynb	
-			"readNetCDF.richardsGridFilename" "$oms_prj//data/Grid_NetCDF/Richards_VG.nc"
+			"readNetCDF.richardsGridFilename" "$oms_prj//data/Grid_NetCDF/Richards_coupled_VG.nc"
 
 			// Available SWRC models:
 			// - "Van Genuchten"
@@ -64,7 +64,7 @@ resource "$oms_prj/dist"
 			// - "Romano"
 			// - "Van Genuchten Bachmann"
 			// - "Brooks Corey Bachmann"
-			"solver.typeClosureEquation" "{Van Genuchten}"
+			"solver.typeClosureEquation" "{Water Depth,Van Genuchten}"
 			
 			// Available SWRC models:
 			// - "Van Genuchten"
@@ -73,14 +73,14 @@ resource "$oms_prj/dist"
 			// - "Romano"
 			// - "Van Genuchten Bachmann"
 			// - "Brooks Corey Bachmann"
-			"solver.typeEquationState" "{Van Genuchten}"
+			"solver.typeEquationState" "{Water Depth,Van Genuchten}"
 
 			// Available unsaturated hydraulic conductivity models:
 			// - "Mualem Van Genuchten"
 			// - "Mualem Kosugi"
 			// - "Mualem Brooks Corey"
 			// - "Mualem Romano"
-			"solver.typeUHCModel" "{Mualem Van Genuchten}"
+			"solver.typeUHCModel" "{null,Mualem Van Genuchten}"
 
 			// Equation to describe the dependence of water viscosity on temperature
 			// is used to correct the value of unsaturated hydraulic conductivity
@@ -106,7 +106,7 @@ resource "$oms_prj/dist"
 			// - "Top Neumann" the water flux at the soil surface is assigned
 			// - "Top Dirichlet" the water suction is assigned 
 			// - "Top coupled" at the soil surface we consider the shallow water control volume
-			"solver.topBCType"  "Top neumann";
+			"solver.topBCType"  "Top Coupled";
 
 			// Type of the bottom boundary condition:
 			// - "Bottom Dirichlet" the water suction value is assigned
@@ -169,7 +169,7 @@ resource "$oms_prj/dist"
 			"buffer.writeFrequency"                   "${writeFrequency}"
 
 			// folder path for the output files
-			"writeNetCDF.fileName" "$oms_prj//output/Sim_Richards_VG.nc"
+			"writeNetCDF.fileName" "$oms_prj//output/Sim_Richards_coupled_shallow_water.nc"
 			// here you can enter a string to describe your simulation
 			"writeNetCDF.briefDescritpion"          "Richards 1D simulation."
 			"writeNetCDF.writeFrequency"            "${writeFrequency}"
@@ -177,10 +177,10 @@ resource "$oms_prj/dist"
 			"writeNetCDF.timeZone"                  "UTC"
 			"writeNetCDF.fileSizeMax"               "10000"
 			"writeNetCDF.outVariables"              "{darcyVelocity}"
-			"writeNetCDF.pathGrid"		"data/Grid_NetCDF/Richards_VG.nc"
+			"writeNetCDF.pathGrid"		"data/Grid_NetCDF/Richards_coupled_VG.nc"
 			"writeNetCDF.pathTopBC"		"data/Timeseries/precip.csv"
 			"writeNetCDF.pathBottomBC"	"data/Timeseries/bottom.csv"
-			"writeNetCDF.topBC"		"Neumann"
+			"writeNetCDF.topBC"		"Coupled with shallow water"
 			"writeNetCDF.bottomBC"	"Free drainage"
 			"writeNetCDF.swrcModel" "Van Genuchten"
 			"writeNetCDF.soilHydraulicConductivityModel" "Mualem Van Genuchten"

@@ -1,0 +1,233 @@
+/*
+ * Solver soil heat advection-diffusion
+ * 
+ * Author: Niccolò Tubini
+ */
+import static oms3.SimBuilder.instance as OMS3
+import static oms3.SimBuilder.*
+def home = oms_prj
+
+// start and end date of the simulation
+
+def startDate= "2003-01-01 00:00"
+
+
+def endDate="2004-01-01 00:00"
+
+// time interval of temporal series [minutes]
+def tTimestep = 60
+
+def writeFrequency = 10000
+
+
+solver = OMS3.sim(name: "Integrate PDE", {
+
+resource "$oms_prj/dist"
+
+	model(while : "reader_data_airT.doProcess"  ){
+
+		components {
+			
+			// reads of the grid.nc file
+			"readNetCDF" "it.geoframe.blogpsot.netcdf.monodimensionalproblemtimedependent.ReadNetCDFHeatAdvectionDiffusionGrid1D"
+			
+			// solve Richards' equation
+			"solver" "it.geoframe.blogspot.whetgeo1d.heatsolver.HeatAdevectionDiffusionSolver1DMain"
+			
+			// time-series reader
+			"reader_data_airT"         "org.jgrasstools.gears.io.timedependent.OmsTimeSeriesIteratorReader"
+			"reader_data_precip"         "org.jgrasstools.gears.io.timedependent.OmsTimeSeriesIteratorReader"
+
+
+			"reader_data_bottomBCHeat"      "org.jgrasstools.gears.io.timedependent.OmsTimeSeriesIteratorReader"
+			"reader_data_bottomBCRichards"      "org.jgrasstools.gears.io.timedependent.OmsTimeSeriesIteratorReader"
+
+			"reader_data_save_dates"    "org.jgrasstools.gears.io.timedependent.OmsTimeSeriesIteratorReader"
+			
+			// this component stores solver's output during the simulation
+			"buffer" "it.geoframe.blogspot.buffer.buffertowriter.HeatAdvectionDiffusionBuffer1D"
+			
+			// output writer in a NetCDF format
+			"writeNetCDF" "it.geoframe.blogpsot.netcdf.monodimensionalproblemtimedependent.WriteNetCDFHeatAdvectionDiffusion1D"
+		
+		}
+		
+		parameter {
+
+			// File path of grid.nc file, the file created with RichardsMeshGen.ipynb	
+			"readNetCDF.gridFilename" "$oms_prj//data//Grid_NetCDF/Heat_advection_diffusion.nc"
+
+			// Available SWRC models:
+			// - "Van Genuchten"
+			// - "Kosugi"
+			// - "Brooks Corey"
+			// - "Romano"
+			// - "Van Genuchten Bachmann"
+			// - "Brooks Corey Bachmann"
+			"solver.typeClosureEquation" "{Water depth,Van Genuchten}"
+			
+			"solver.typeRichardsEquationState"  "{Water depth,Van Genuchten}"
+			"solver.typeUHCModel" "{null,Mualem Van Genuchten}"
+			"solver.interfaceHydraulicConductivityModel"  "max";
+			"solver.typeUHCTemperatureModel"  "notemperature";
+			
+			"solver.typeInternalEnergyEquationState" "{Water heat capacity,SoilHeatCapacity}"
+			"solver.typeThermalConductivity" "{Water,Cosenza}"
+
+			// Interface theraml conductivity can be computed as:
+			// - "mean" arithmetic average between i and i+1 (not suggested)
+			// - "max" maximum between i and i+1 (suggested)
+			// - "min" minimum between i and i+1 (not suggested)
+			// - "weighted average" average between i and i+1, weights are control volumes lengths
+			"solver.interfaceThermalConductivityModel" "max"
+						
+
+			"solver.topRichardsBCType"  "Top coupled"
+			"solver.bottomRichardsBCType"  "Bottom free drainage"
+			"solver.topInternalEnergyBCType" "Top Dirichlet"
+			"solver.bottomInternalEnergyBCType" "Bottom Dirichlet"
+			
+			"solver.stationID"  "135"
+
+			// nested Newton tolerance, range(10^(-3) ;  10^(-14))
+			"solver.newtonTolerance" "10e-12"
+
+			// Algorithm to solve the nonlinear system:
+			// - 0 --> Newton's method
+			// - 1 --> nested Newton (suggested)
+			"solver.nestedNewton" "1"
+
+			// time step [s], it must be consistent
+			// with tTimestep defined at line 22
+			"solver.tTimeStep" tTimestep*60
+
+			// time step [s] used to integrate the equation,
+			// this is the Delta t used in the numerical scheme
+			// timeDelta <= tTimestep
+			"solver.timeDelta" "3600"
+			
+			// parameters reader data input top boundary condition
+			"reader_data_airT.file"             "$oms_prj//data/Timeseries/airT_T0135.csv"
+			"reader_data_airT.idfield"          "ID"  
+			"reader_data_airT.tStart"           "${startDate}"
+			"reader_data_airT.tEnd"             "${endDate}"
+			"reader_data_airT.tTimestep"        "${tTimestep}"
+			"reader_data_airT.fileNovalue"      "-9999"
+			
+			// parameters reader data input top boundary condition
+			"reader_data_precip.file"             "$oms_prj//data/Timeseries/Precip_T0135.csv"
+			"reader_data_precip.idfield"          "ID"  
+			"reader_data_precip.tStart"           "${startDate}"
+			"reader_data_precip.tEnd"             "${endDate}"
+			"reader_data_precip.tTimestep"        "${tTimestep}"
+			"reader_data_precip.fileNovalue"      "-9999"
+			
+			// parameters reader data input top boundary condition
+			"reader_data_bottomBCHeat.file"             "$oms_prj//data/Timeseries/bottomT_T0135.csv"
+			"reader_data_bottomBCHeat.idfield"          "ID"  
+			"reader_data_bottomBCHeat.tStart"           "${startDate}"
+			"reader_data_bottomBCHeat.tEnd"             "${endDate}"
+			"reader_data_bottomBCHeat.tTimestep"        "${tTimestep}"
+			"reader_data_bottomBCHeat.fileNovalue"      "-9999"
+			
+			// parameters reader data input top boundary condition
+			"reader_data_bottomBCRichards.file"             "$oms_prj//data/Timeseries/nan_T0135.csv"
+			"reader_data_bottomBCRichards.idfield"          "ID"  
+			"reader_data_bottomBCRichards.tStart"           "${startDate}"
+			"reader_data_bottomBCRichards.tEnd"             "${endDate}"
+			"reader_data_bottomBCRichards.tTimestep"        "${tTimestep}"
+			"reader_data_bottomBCRichards.fileNovalue"      "-9999"
+
+			// parameters reader data save dates
+			"reader_data_save_dates.file"             "$oms_prj//data/Timeseries//saveDates_T0135.csv"
+			"reader_data_save_dates.idfield"          "ID"  
+			"reader_data_save_dates.tStart"           "${startDate}"
+			"reader_data_save_dates.tEnd"             "${endDate}"
+			"reader_data_save_dates.tTimestep"        "${tTimestep}"
+			"reader_data_save_dates.fileNovalue"      "-9999"
+			
+			
+			"buffer.writeFrequency"                   "${writeFrequency}"
+
+			// folder path for the output files
+			"writeNetCDF.fileName" "$oms_prj//output/Sim_heat_advection_diffusion_OMS.nc"
+			// here you can enter a string to describe your simulation
+			"writeNetCDF.briefDescritpion"          "Heat advection-diffusion 1D."
+			"writeNetCDF.writeFrequency"            "${writeFrequency}"
+			"writeNetCDF.timeUnits"                 "Minutes since 01/01/1970 00:00:00 UTC"
+			"writeNetCDF.timeZone"                  "UTC"
+			"writeNetCDF.fileSizeMax"               "5000"
+			"writeNetCDF.outVariables"              "{}"
+			"writeNetCDF.pathGrid"					"data//Grid_NetCDF/Heat_diffusion.nc"
+			"writeNetCDF.pathHeatBottomBC" "data/Timeseries/airT_T0135.csv" 
+			"writeNetCDF.pathHeatTopBC" "data/Timeseries/Precip_T0135.csv" 
+			"writeNetCDF.pathRichardsBottomBC"  "data/Timeseries/nan_T0135.csv" 
+			"writeNetCDF.pathRichardsTopBC" "data/Timeseries/bottomT_T0135.csv"
+			"writeNetCDF.swrcModel"					"Van Genuchten model"
+			"writeNetCDF.soilHydraulicConductivityModel" "Mualem VG no temperature"
+			"writeNetCDF.interfaceHydraulicConductivityModel"  "max"
+			"writeNetCDF.soilThermalConductivityModel" "Cosenza";
+			"writeNetCDF.interfaceThermalConductivityModel" "max"
+
+			
+		}
+
+		connect{
+
+
+			"readNetCDF.z"                      "solver.z"
+			"readNetCDF.spaceDelta"             "solver.spaceDeltaZ"
+			"readNetCDF.psi"                  "solver.psiIC"
+			"readNetCDF.temperatureIC"            "solver.temperature"
+			"readNetCDF.controlVolume"          "solver.controlVolume"
+			"readNetCDF.soilParticlesDensity"		            "solver.soilParticlesDensity" 
+			"readNetCDF.soilParticlesThermalConductivity"		"solver.thermalConductivitySoilParticles"
+			"readNetCDF.soilParticlesSpecificHeatCapacity"		"solver.specificThermalCapacitySoilParticles"
+			"readNetCDF.meltingTemperature"		                "solver.meltingTemperature"
+			"readNetCDF.Ks"                     "solver.ks"
+			"readNetCDF.thetaS"                 "solver.thetaS"
+			"readNetCDF.thetaR"                 "solver.thetaR"
+			"readNetCDF.par1SWRC"               "solver.par1SWRC"
+			"readNetCDF.par2SWRC"               "solver.par2SWRC"
+			"readNetCDF.par3SWRC"               "solver.par3SWRC"
+			"readNetCDF.par4SWRC"               "solver.par4SWRC"
+			"readNetCDF.par5SWRC"               "solver.par5SWRC"
+			"readNetCDF.alphaSS"                "solver.alphaSpecificStorage"
+			"readNetCDF.betaSS"                 "solver.betaSpecificStorage"
+			"readNetCDF.equationStateID"        "solver.inEquationStateID"
+			"readNetCDF.parameterID"            "solver.inParameterID"
+
+			"reader_data_airT.tCurrent"                "solver.inCurrentDate"
+			"reader_data_airT.outData"                 "solver.inInternalEnergyTopBC"
+			"reader_data_precip.outData"               "solver.inRichardsTopBC"
+			"reader_data_bottomBCRichards.outData"     "solver.inRichardsBottomBC"
+			"reader_data_bottomBCHeat.outData"         "solver.inInternalEnergyBottomBC"
+
+			"reader_data_save_dates.outData"           "solver.inSaveDate"
+			
+			
+			
+			// input buffer
+			"solver.inCurrentDate"        "buffer.inputDate"
+			"solver.doProcessBuffer"      "buffer.doProcessBuffer"
+			"solver.outputToBuffer"       "buffer.inputVariable"
+
+			
+			// input writeNetCDF
+			"reader_data_airT.doProcess"        "writeNetCDF.doProcess"
+			
+			"buffer.myVariable"                  "writeNetCDF.variables"
+			
+			"readNetCDF.eta"                     "writeNetCDF.spatialCoordinate"
+			"readNetCDF.etaDual"                 "writeNetCDF.dualSpatialCoordinate"
+			"readNetCDF.controlVolume"           "writeNetCDF.controlVolume"
+			"readNetCDF.psi"                     "writeNetCDF.psi"
+			"readNetCDF.temperatureIC"           "writeNetCDF.temperatureIC"
+			
+			
+		}
+	}
+
+	}
+
+)
