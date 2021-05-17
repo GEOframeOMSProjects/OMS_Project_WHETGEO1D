@@ -23,8 +23,6 @@ Neumann type to Dirichlet type.
 
 # GEOframe environment installation
 
-Here you can find the [source code](https://github.com/geoframecomponents/WHETGEO-1D)
-
 GEOframe programs run on Java 8. `WHETGEO1D` can be run either within the OMS3 Console or by using [Docker](https://hub.docker.com/r/omslab/oms/).
  
 ## Running WHETGEO1D from the OMS3 console
