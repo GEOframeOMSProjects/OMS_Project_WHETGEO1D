@@ -1,5 +1,5 @@
 # OMS Project WHETGEO1D
-`WHETGEO1D` is a physically based model simulating the water and energy budgets in a soil column. `WHETGEO1D` is written in Java,  works under the [`Object Modeling System v3 (OMS3)`](https://abouthydrology.blogspot.com/2017/08/oms-3-essentials.html)(David et al., 2013) framework and it is part of the `GEOframe` system ([Formetta et al., 2014](https://doi.org/10.1016/j.envsoft.2014.01.019), [Bancheri, 2017](http://eprints-phd.biblio.unitn.it/2679/)). It was produced as part of the Ph.D. work by Niccolò Tubini.
+`WHETGEO1D` (Water HEat Transpoert in GEOframe) is a physically based model simulating the water and energy budgets in a soil column. `WHETGEO1D` is written in Java,  works under the [`Object Modeling System v3 (OMS3)`](https://abouthydrology.blogspot.com/2017/08/oms-3-essentials.html)(David et al., 2013) framework and it is part of the `GEOframe` system ([Formetta et al., 2014](https://doi.org/10.1016/j.envsoft.2014.01.019), [Bancheri, 2017](http://eprints-phd.biblio.unitn.it/2679/)). It was produced as part of the Ph.D. work by Niccolò Tubini.
 
 With `WHETGEO1D` it is possible to solve
 
