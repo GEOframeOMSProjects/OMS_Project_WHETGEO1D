@@ -35,14 +35,14 @@ resource "$oms_prj/dist"
 			"solver" "it.geoframe.blogspot.whetgeo1d.heatsolver.HeatAdevectionDiffusionSolver1DMain"
 			
 			// time-series reader
-			"reader_data_airT"         "org.jgrasstools.gears.io.timedependent.OmsTimeSeriesIteratorReader"
-			"reader_data_precip"         "org.jgrasstools.gears.io.timedependent.OmsTimeSeriesIteratorReader"
+			"reader_data_airT"         "org.hortonmachine.gears.io.timedependent.OmsTimeSeriesIteratorReader"
+			"reader_data_precip"         "org.hortonmachine.gears.io.timedependent.OmsTimeSeriesIteratorReader"
 
 
-			"reader_data_bottomBCHeat"      "org.jgrasstools.gears.io.timedependent.OmsTimeSeriesIteratorReader"
-			"reader_data_bottomBCRichards"      "org.jgrasstools.gears.io.timedependent.OmsTimeSeriesIteratorReader"
+			"reader_data_bottomBCHeat"      "org.hortonmachine.gears.io.timedependent.OmsTimeSeriesIteratorReader"
+			"reader_data_bottomBCRichards"      "org.hortonmachine.gears.io.timedependent.OmsTimeSeriesIteratorReader"
 
-			"reader_data_save_dates"    "org.jgrasstools.gears.io.timedependent.OmsTimeSeriesIteratorReader"
+			"reader_data_save_dates"    "org.hortonmachine.gears.io.timedependent.OmsTimeSeriesIteratorReader"
 			
 			// this component stores solver's output during the simulation
 			"buffer" "it.geoframe.blogspot.buffer.buffertowriter.HeatAdvectionDiffusionBuffer1D"

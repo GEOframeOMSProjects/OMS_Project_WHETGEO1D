@@ -36,14 +36,14 @@ resource "$oms_prj/dist"
 			"solver" "it.geoframe.blogspot.whetgeo1d.heatsolver.HeatDiffusionFreezingThawingSolverWithSurfaceEnergyBalance1DMain"
 			
 			// time-series reader
-			"reader_data_airT"         "org.jgrasstools.gears.io.timedependent.OmsTimeSeriesIteratorReader"
-			"reader_data_sw"         "org.jgrasstools.gears.io.timedependent.OmsTimeSeriesIteratorReader"
-			"reader_data_lw"         "org.jgrasstools.gears.io.timedependent.OmsTimeSeriesIteratorReader"
-			"reader_data_wind"         "org.jgrasstools.gears.io.timedependent.OmsTimeSeriesIteratorReader"
-			"reader_data_LE"         "org.jgrasstools.gears.io.timedependent.OmsTimeSeriesIteratorReader"
+			"reader_data_airT"         "org.hortonmachine.gears.io.timedependent.OmsTimeSeriesIteratorReader"
+			"reader_data_sw"         "org.hortonmachine.gears.io.timedependent.OmsTimeSeriesIteratorReader"
+			"reader_data_lw"         "org.hortonmachine.gears.io.timedependent.OmsTimeSeriesIteratorReader"
+			"reader_data_wind"         "org.hortonmachine.gears.io.timedependent.OmsTimeSeriesIteratorReader"
+			"reader_data_LE"         "org.hortonmachine.gears.io.timedependent.OmsTimeSeriesIteratorReader"
 
-			"reader_data_bottomBC"      "org.jgrasstools.gears.io.timedependent.OmsTimeSeriesIteratorReader"
-			"reader_data_save_dates"    "org.jgrasstools.gears.io.timedependent.OmsTimeSeriesIteratorReader"
+			"reader_data_bottomBC"      "org.hortonmachine.gears.io.timedependent.OmsTimeSeriesIteratorReader"
+			"reader_data_save_dates"    "org.hortonmachine.gears.io.timedependent.OmsTimeSeriesIteratorReader"
 			
 			// this component stores solver's output during the simulation
 			"buffer" "it.geoframe.blogspot.buffer.buffertowriter.HeatDiffusionFreezingThawingBufferWithSurfaceEnergyBudget1D"

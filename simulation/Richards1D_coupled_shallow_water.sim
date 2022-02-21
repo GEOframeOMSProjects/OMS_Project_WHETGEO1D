@@ -40,9 +40,9 @@ resource "$oms_prj/dist"
 			"solver" "it.geoframe.blogspot.whetgeo1d.richardssolver.RichardsSolver1DMain"
 			
 			// time-series reader
-			"reader_data_topBC"         "org.jgrasstools.gears.io.timedependent.OmsTimeSeriesIteratorReader"
-			"reader_data_bottomBC"      "org.jgrasstools.gears.io.timedependent.OmsTimeSeriesIteratorReader"
-			"reader_data_save_dates"    "org.jgrasstools.gears.io.timedependent.OmsTimeSeriesIteratorReader"
+			"reader_data_topBC"         "org.hortonmachine.gears.io.timedependent.OmsTimeSeriesIteratorReader"
+			"reader_data_bottomBC"      "org.hortonmachine.gears.io.timedependent.OmsTimeSeriesIteratorReader"
+			"reader_data_save_dates"    "org.hortonmachine.gears.io.timedependent.OmsTimeSeriesIteratorReader"
 			
 			// this component stores solver's output during the simulation
 			"buffer" "it.geoframe.blogspot.buffer.buffertowriter.RichardsBuffer1D"
