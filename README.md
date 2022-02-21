@@ -16,7 +16,7 @@ soil. From the numerical point of view, as water builds up at the soil surface i
 Neumann type to Dirichlet type.
 </p>
 
-Hoping that WHETGEO will _whet_ your curiosity.
+Hoping that WHETGEO will _whet_ your interest.
 
 # Website
 - [GEOframe](https://geoframe.blogspot.com/2021/05/whetgeo-1d.html)
